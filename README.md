@@ -99,9 +99,7 @@ The `exercises/` directory and starter assets (synthetic genome, GFF, etc.) will
 
 ## Contact
 
-- **Course manager:** Jitka-Markéta Konečná — `+420 773 772 672`
-- **Student contact:** Adam Neubauer — `+420 731 435 418`
-- **Email:** `summer@muni.cz`
+- **General contact:** Mai Hoa Magnus — `+420 775 853 057` — `magnus@czs.muni.cz`
 
 Issues with the repo or course materials: open a GitHub issue against this repository.
 
