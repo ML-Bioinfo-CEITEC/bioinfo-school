@@ -90,6 +90,8 @@ The agent will almost certainly fix it cleanly once told. Re-run, validate, conf
 
 **Optional extension.** Add `regions.bed` (0-based half-open) and ask the agent to filter CDS overlapping BED regions. Now there are two coordinate conventions in the same script. Watch it mix them up.
 
+
+
 ### Self-directed mini-project (~2h)
 
 Pick one (or propose your own — get a thumbs-up at the Friday Q&A):
@@ -105,6 +107,34 @@ End-to-end with the agent. Hit moments where it goes off the rails. Recover. Com
 Under **Week 2 → Surprises** in [`lessons.md`](../lessons.md): where did the agent help most, where did it mislead you, where did you have to step in. Be specific — *"agent confused 0-based and 1-based again on the BED filter"* is more useful than *"agent made mistakes."*
 
 ---
+
+## Our live session — Feature engineering
+
+As part of Week 2, we had the live session **Feature Engineering: Translating Scientific Intuition into Numbers** on **Tuesday 2 June, 11:00–14:00**.
+
+In this session, we connected the general theme of agentic bioinformatics workflows with a central modelling question: before an agent or a machine-learning model can be useful, we first need to translate the scientific object into a meaningful representation. We emphasized that models do not learn directly from molecules, sequences, signals, images, simulations, or experiments; they learn from the numerical features we decide to give them.
+
+The main lessons from the session were:
+
+- **Raw data is not the same as information.** Data become useful for modelling only after we represent them in a meaningful form.
+
+- **Feature engineering is scientific translation.** A feature is not just a column in a table; it is a hypothesis about what part of the system may matter.
+
+- **Different representations expose different mechanisms.** The same object can be represented through raw values, summary statistics, ratios, interactions, descriptors, embeddings, or domain-specific quantities.
+
+- **Good features encode scientific constraints.** Useful features often respect units, scale, geometry, time, invariants, measurement limits, and biological or physical meaning.
+
+- **More features are not always better.** Adding many redundant or weak descriptors can increase overfitting, especially in small biological datasets.
+
+- **Predictive features are not automatically meaningful.** A feature can improve a metric while actually encoding batch effects, leakage, site information, instrument artifacts, or other shortcuts.
+
+- **Agents can help us generate and test features, but they cannot replace scientific judgment.** Agent-generated descriptors must be checked for meaning, leakage, redundancy, and consistency with the biological question.
+
+The key take-home message was:
+
+> **Feature engineering decides what part of reality the model is allowed to see. Good features make good scientific questions learnable.**
+
+This session prepared us for the practical Week 2 exercises by stressing that agent-generated bioinformatics code should not only be checked for whether it runs, but also for whether the representation it creates is biologically meaningful and scientifically valid.
 
 ## Required materials
 
