@@ -1,11 +1,30 @@
-# Week 4 — How agents talk to the world: tools, commands, MCP
+# Week 4 — Tools, commands, MCP, and getting ready for Brno
 
 **Dates.** Monday 15 June – Friday 19 June 2026  
-**Live session.** **Friday 19.6 · 12:00–12:30** — drop-in Q&A and on-ramp to in-person week (Europe/Prague)
+**Live session (Europe/Prague).**
 
-**Goal.** Understand the three modes by which an agent uses tools (writing code, running shell commands, calling structured MCP servers). Add reproducibility scaffolding. Set up the in-person week.
+- **Friday 19.6 · 12:00–12:30** — drop-in Q&A and on-ramp to the in-person week
 
-**Time budget.** ~7 hours.
+**Goal.** Make your prep-period repo easier to reproduce, teach the agent one or two of your conventions, and understand the difference between local agent skills and MCP-style tools.
+
+**Time budget.** ~5-7 hours.
+
+---
+
+## Required materials
+
+### Video
+
+- Tim Berglund, *[Agent Skills or MCP in the era of Claude Code?](https://www.youtube.com/watch?v=pvxNcQTcIy4)* (~10 min). Watch for the distinction between local skills, scripts, and MCP servers.
+
+### Reading
+
+- Mitchener et al., *[BixBench: A Comprehensive Benchmark for LLM-based Agents in Computational Biology](https://arxiv.org/abs/2503.00096)*, arXiv 2025. Read for calibration: what current agents can and cannot do on real computational-biology tasks.
+
+### Optional supplement
+
+- Anthropic, *[Building Effective Agents](https://www.anthropic.com/engineering/building-effective-agents)*. Useful if you want a broader taxonomy of workflows, agents, evaluator-optimizer loops, and orchestrator-worker patterns.
+- [Model Context Protocol documentation](https://modelcontextprotocol.io/). Skim the introduction if MCP is still a new term.
 
 ---
 
@@ -23,13 +42,11 @@ Mention Docker exists; we'll cover it in person. One paragraph of mental-model f
 
 This is the conceptual spine of the week. Walk through one bioinformatics example — *"count reads aligned to chr21 in this BAM"* — three ways:
 
-
 | Mode                                                          | What happens                                                                                                                   | Output                                        | Cost                                                     |
 | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------- | -------------------------------------------------------- |
 | **1. Agent writes code that calls the tool.**                 | What weeks 2–3 did. Agent generates Python that calls `subprocess.run(["samtools", ...])` or hits a REST API.                  | Versioned, reusable code.                     | Silent flag mistakes; throwaway for one-off questions.   |
 | **2. Agent executes commands directly.**                      | Antigravity agent mode, Claude Code, Cursor terminal. Agent literally runs `samtools view -c file.bam chr21` and reads stdout. | An answer (and a session log if you save it). | Side effects, *"rm -rf my data,"* no shareable artifact. |
 | **3. Agent calls structured tools (MCP / function calling).** | Tools wrapped as named, typed interfaces invoked via protocol. BioMCP, NCBI MCP, custom servers.                               | Structured, auditable, composable.            | Somebody builds and maintains the wrapper.               |
-
 
 The criterion for choosing:
 
@@ -82,52 +99,38 @@ Close with the on-ramp: **day one of the in-person week (Mon 22.6), bring your r
 
 That reflection paragraph is the assessment. Anyone who can answer it concretely after four weeks has gotten what the prep was meant to deliver.
 
----
-
-## Required materials
-
-### Video
-
-- A current introduction to the Model Context Protocol — Anthropic's intro on `[modelcontextprotocol.io](https://modelcontextprotocol.io)`, or a recent good walk-through (~30–45 min). Pick the most current well-produced video at cohort launch — link refreshed in the kick-off email. The conceptual leap from *"agent runs shell commands"* to *"agent calls structured tools"* needs a concrete demo.
-
-### Reading
-
-- Mitchener et al., *[BixBench: A Comprehensive Benchmark for LLM-based Agents in Computational Biology](https://arxiv.org/abs/2503.00096)*, arXiv 2025. Quantifies what agents can actually do on real bioinformatics analyses. The honest numbers are the calibration the whole course has been building toward.
-
----
-
 ## Practical notes
 
-- **The "three modes" framing pays compounding dividends.** Once you have it, you'll spontaneously ask *"is this a mode 1 or mode 3 task?"* That distinction guides better tool choices for years.
-- **MCP setup friction is real.** Stick to the one MCP server we've tested in Antigravity for this week; save free exploration for the in-person week.
-- **The `AGENTS.md` exercise is high-leverage and underrated.** Most people learn agent-rule files only after months of frustration. Doing it explicitly here means you'll be productive with your next agent setup *immediately*.
+- **Keep this week lighter than weeks 2 and 3.** The main job is to package what you already did and bring useful questions to Brno.
+- **MCP setup friction is real.** Reading and reasoning about MCP is enough this week. We can debug actual server setup in person.
+- **Rules are practical.** A short `AGENTS.md` that prevents one repeated mistake is more valuable than a long generic manifesto.
 
 ---
 
 ## What "done" looks like
 
-- `pyproject.toml` (uv-managed) added to your week 3 repo; project runs in a clean venv
-- 10-line `AGENTS.md` committed at repo root
-- BioTerm-Bench: 3–5 tasks attempted, predictions vs agent results logged
-- One MCP demo tried; observation written under **Week 4 → Surprises** in [`lessons.md`](../lessons.md)
-- Repo tagged `v0.1`
-- `reflection.md` committed: *"what I would and wouldn't trust an agent with."*
-- Repo URL submitted to the cohort form before the in-person week
+- One previous artifact has clearer rerun instructions
+- `AGENTS.md` added with 6-10 useful repo-specific instructions
+- Notes on the three tool-use modes written under **Week 4 → From the materials** or in your repo
+- [`lessons.md`](../lessons.md): **Week 4 → Surprises** updated
+- `reflection.md` committed: *"what I would and would not trust an agent with"*
+- Optional: repo tagged `v0.1`
 
 ---
 
 ## Friday Q&A — what to bring
 
-- Your `reflection.md` paragraph — read it out if you want a sanity check
-- Anywhere `pyproject.toml` / `uv` broke
-- Whichever MCP server you tried, and whether the value-vs-friction trade-off felt worth it
+- Your `reflection.md` paragraph, if you want a sanity check
+- Anything that broke while making your repo reproducible
+- Your `AGENTS.md` rules, especially if you want feedback
+- Questions about skills vs MCP
 - Three things you want to build next week in Brno
 
 ---
 
 ## On-ramp to the in-person week (22–26 June 2026, Brno)
 
-- **Mon 22.6 — day one.** Pair up, exchange repos, try to reproduce each other's week 3 results. *(Pre-announced so you have time to make your repo reproducible.)*
+- **Mon 22.6 — day one.** Pair up, exchange repos, try to reproduce each other's week 2 or week 3 result. *(Pre-announced so you have time to make your repo reproducible.)*
 - **Tue 23.6 – Thu 25.6.** Docker, MCP server authoring, multi-agent workflows, capstone build days.
 - **Fri 26.6.** Lightning talks, retros, what-next.
 
