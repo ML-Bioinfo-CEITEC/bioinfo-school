@@ -31,6 +31,37 @@
 
 ## Activities
 
+
+### Lecture: Interpretability — Translating AI Outputs Back into Human Knowledge
+
+This session asks what comes after prediction. Bio foundation models can produce scores, structures, embeddings, rankings, attention maps, attribution values, clusters, and generated biological objects. But these outputs are not automatically scientific knowledge.
+
+The lecture focuses on five ideas:
+
+1. **From prediction to explanation.**  
+   A model can produce a correct prediction without producing a scientific explanation. A model explanation is also not automatically a biological explanation. We separate three objects: model output, model explanation, and scientific explanation.
+
+2. **Bio foundation models as representation machines.**  
+   Foundation models do not only produce final predictions. They transform biological objects into learned numerical representations: protein embeddings, genomic language-model representations, latent chemical vectors, geometric representations, or transcriptomic embeddings. These representations can be useful, but they are not automatically human-understandable.
+
+3. **Embeddings, attention, attribution, and latent spaces.**  
+   Embeddings allow similarity search, clustering, classification, visualization, and generation, but they operate in model space. Attention and attribution can suggest where to look, but high attention or strong attribution does not prove biological mechanism or causality.
+
+4. **Scientific traps in interpretability.**  
+   Interpretability can also mislead. Beautiful heatmaps, clean clusters, named latent dimensions, post-hoc stories, and selective examples can create a false sense of explanation. Visual clarity is not biological validity.
+
+5. **From model output to biological hypothesis.**  
+   The goal is not to make a model sound explainable. The goal is to translate model behaviour into hypotheses that can be checked using motifs, conservation, structure, perturbations, controls, experiments, or independent evidence.
+
+A central rule for this week:
+
+> Interpretability is useful only when it separates what the model output shows, what biological hypothesis it suggests, what evidence would be needed, and what alternative explanations could exist.
+
+Write at least one note under **Week 3 → From the materials** answering:
+
+> What kind of model output do I encounter most often in my own work, and what would I need to check before calling it biologically meaningful?
+
+
 ### Exercise A — Structure prediction (~2h)
 
 Use ColabFold in Colab. There is no course-specific Colab notebook for this week; use the public notebooks linked from [`exercises/week3/`](../exercises/week3/).
@@ -90,12 +121,13 @@ Under **Week 3 → Surprises** in [`lessons.md`](../lessons.md): which model out
 ---
 
 ## What "done" looks like
-
+- Stefan's interpretability lecture attended or recording watched
 - At least one structure predicted (Exercise A); pLDDT and PAE, if available, eyeballed and noted
 - Protein embeddings computed (Exercise B); cosine similarity plus PCA or UMAP plot saved
 - Short notes written in `exercises/week3/results.md`
 - Optional: Genomic Benchmarks pipeline (Exercise C) attempted and compared against the published CNN baseline
 - [`lessons.md`](../lessons.md): **Week 3 → Surprises** updated with at least one model-output surprise and one validation hook
+- At least one example written from your own field where an AI-generated interpretation would need independent evidence before being trusted
 
 ---
 
