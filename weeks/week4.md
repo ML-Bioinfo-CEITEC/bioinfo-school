@@ -30,74 +30,80 @@
 
 ## Activities
 
-### Light reproducibility refresh (~1h)
+### Exercise A — Reproducibility refresh (~1.5h)
 
-Go back to the Genomic Benchmarks repo from week 3. Add a proper `pyproject.toml` (we recommend `[uv](https://docs.astral.sh/uv/)`). Run on a fresh `uv venv`. Fix what breaks.
+Pick one artifact from weeks 2 or 3: a script, notebook, mini-project, or small repo. Make it easier for somebody else to rerun.
 
-The *"fix what breaks"* **is** the lesson — agents leave hidden dependencies (an inline `pip install`, an implicit Colab-installed library), and reading the diff between *"what I wrote"* and *"what actually runs"* is the skill.
+Minimum version:
 
-Mention Docker exists; we'll cover it in person. One paragraph of mental-model framing — *"container = frozen filesystem + a process, runs identically everywhere"* — and move on. **Do not try to install Docker Desktop on Windows this week.** That's an in-person debugging session.
+1. Add or update a short `README.md`.
+2. List the required inputs and outputs.
+3. List the commands or notebook cells needed to rerun it.
+4. Record any dependency that was implicit before.
 
-### The three modes of agent–tool interaction (~1.5h)
+If you are comfortable with Python packaging, also add a `pyproject.toml` and try a fresh environment with [`uv`](https://docs.astral.sh/uv/). If that takes too long, write down what broke and move on. The failure is useful evidence.
 
-This is the conceptual spine of the week. Walk through one bioinformatics example — *"count reads aligned to chr21 in this BAM"* — three ways:
+Do not spend the week fighting Docker. We will cover containers in person.
 
-| Mode                                                          | What happens                                                                                                                   | Output                                        | Cost                                                     |
-| ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------- | -------------------------------------------------------- |
-| **1. Agent writes code that calls the tool.**                 | What weeks 2–3 did. Agent generates Python that calls `subprocess.run(["samtools", ...])` or hits a REST API.                  | Versioned, reusable code.                     | Silent flag mistakes; throwaway for one-off questions.   |
-| **2. Agent executes commands directly.**                      | Antigravity agent mode, Claude Code, Cursor terminal. Agent literally runs `samtools view -c file.bam chr21` and reads stdout. | An answer (and a session log if you save it). | Side effects, *"rm -rf my data,"* no shareable artifact. |
-| **3. Agent calls structured tools (MCP / function calling).** | Tools wrapped as named, typed interfaces invoked via protocol. BioMCP, NCBI MCP, custom servers.                               | Structured, auditable, composable.            | Somebody builds and maintains the wrapper.               |
+### Exercise B — Agent rules and reusable instructions (~1h)
 
-The criterion for choosing:
+Create a short `AGENTS.md` at the root of your repo. It should be specific to your work, not generic AI advice.
 
-> *One-off exploration → mode 2; reusable analysis → mode 1; production or oft-repeated workflow → mode 3.*
+Include 6-10 lines such as:
 
-That heuristic is what you should walk away with. You will spontaneously ask *"is this a mode 1 or mode 3 task?"* for years afterward, and that distinction will guide better tool choices.
+- which Python version or package manager to use
+- where data files live
+- which genome build or identifier convention matters in your field
+- what validation checks the agent should run before claiming success
+- what files it should not edit or commit
 
-### Skills, commands, agent rules (~1h)
+Then start a new agent chat and ask it to summarize the repo. Check whether it noticed and followed the instructions.
 
-The mechanism by which preferences and context persist across agent sessions.
+The idea from the video is simple: if you keep telling the agent the same thing, turn it into a rule, command, or skill.
 
-- **`AGENTS.md` / `CLAUDE.md` / `.cursorrules`.** Markdown at repo root that the agent reads on every session. Tells it your conventions: GRCh38 not GRCh37, Python 3.11 not 3.9, pytest not unittest, never commit to `main`. **Add a 10-line `AGENTS.md` to your genomic-benchmarks repo capturing one or two real conventions from your [`lessons.md`](../lessons.md) Surprises entries.** This is the highest-leverage single thing you can do to make next month's work smoother.
-- **Slash commands / custom commands.** Saved prompts wrapping repeatable workflows. `/explain this CDS`, `/check coordinates`. Each agent IDE has its own flavor; the concept is universal.
-- **Skills.** Newer pattern — instead of one big rules file, a directory of focused capability bundles the agent loads when relevant. Each is a `SKILL.md` plus optional helpers. For a bioinformatics group: a *"VCF handling"* skill, a *"GFF/BED coordinate conversions"* skill, an *"ESMFold-via-API"* skill. The pattern is emergent; bring ideas to the in-person week and we'll build them together.
+### Exercise C — Three ways agents use tools (~1.5h)
 
-The framing: **every *"I keep telling the agent the same thing"* is a candidate for a skill or rule.**
+Take one small bioinformatics task and think through three possible implementations.
 
-### BioTerm-Bench exercise (~2h)
+Example task: *"Given a list of UniProt IDs, return protein length and organism."*
 
-Hands-on for Mode 2: point an agent at a benchmark of bioinformatics CLI tasks and watch it succeed or fail.
+For your chosen task, write one short note for each mode:
 
-Pick 3–5 tasks from BioTerm-Bench (link in starter repo). Run with Antigravity in agent/terminal mode. For each task:
+1. **Code mode.** The agent writes a reusable script or notebook.
+2. **Command mode.** The agent runs shell commands or API calls directly and reports the answer.
+3. **MCP/tool mode.** The agent calls a typed tool such as an MCP server or function wrapper.
 
-1. **Read the spec.** Predict yourself how an expert bioinformatician would solve it (which tools, which flags). Write the prediction down before invoking the agent.
-2. **Let the agent attempt.** Observe what it does.
-3. **Compare.** Same tools? Correct flags? Right output? Confidently wrong output?
-4. **Log failure modes** under **Week 4 → Surprises** in [`lessons.md`](../lessons.md).
+For each mode, answer:
 
-Same epistemology as the week 2 trap exercise, applied to a published benchmark with known answers. You get to see, with numbers, where current agents are reliable and where they aren't.
+- What artifact do you get?
+- What can silently go wrong?
+- Would you use this mode for one-off exploration, a reusable analysis, or a production workflow?
 
-### MCP and where this is going (~1h)
+You do not need to build all three. The goal is to learn when each mode is appropriate.
 
-Forward-looking, but grounded.
+### Exercise D — Optional MCP exploration (~1h)
 
-Open with a quick MCP demo — connect to a [BioMCP](https://github.com/genomoncology/biomcp) server (PubMed search, ClinVar lookup, NCBI fetch — pick one with low setup friction; setup notes in `weeks/cheatsheets/mcp-setup.md`) and have the agent answer a real question through it. The contrast with Mode 2 makes the value tangible: structured args, structured responses, no parsing of raw command output.
+If you have time, try one small MCP-related exploration:
 
-Then three threads, brief and somewhat skeptical:
+- read the first page of the MCP docs and summarize what a tool is
+- inspect the [BioMCP](https://github.com/genomoncology/biomcp) README
+- ask an agent what MCP servers would be useful for your subfield, then verify whether any of them actually exist
 
-- **MCP ecosystem in bio.** What exists today (BioMCP, NCBI servers, ChEMBL wrappers); what doesn't (most niche bio tools — your samtools server doesn't exist, you'd build it). Why this matters: agent capability scales with the tool ecosystem, not just the model.
-- **Agentic pipelines and *"AI scientist"* systems.** BixBench, Aviary, Sakana — early but real. Frontier agents at ~17% accuracy on real bioinformatics tasks (BixBench). They're useful, calibrated tools, not general bioinformaticians.
-- **Bio FM frontier.** Where ESM3, AlphaFold3, Evo2, scFoundation are heading; what's still unsolved (dynamics, ensembles, post-translational state). The cheat sheet from week 3 will need updating in 6 months.
+Write one paragraph under **Week 4 → From the materials** in [`lessons.md`](../lessons.md): *"What should be a skill, and what should be an MCP tool?"*
 
-Close with the on-ramp: **day one of the in-person week (Mon 22.6), bring your repo + `lessons.md` + a list of three things you want to build.**
+### Reflection and wrap-up (~1h)
 
-### Wrap-up and capstone (~30 min)
+Finish the prep period with two small artifacts:
 
-- **Tag a release** in your repo: `git tag v0.1 && git push --tags`.
-- **Write a one-paragraph reflection:** *"What would I trust an agent to do in my research, and what would I not?"* Commit it as `reflection.md`.
-- **Submit `lessons.md`** as your portfolio artifact (link your repo on the cohort form).
+1. Update [`lessons.md`](../lessons.md), especially **Week 4 → Surprises**.
+2. Write a one-paragraph `reflection.md`: *"What would I trust an agent to do in my research, and what would I not?"*
 
-That reflection paragraph is the assessment. Anyone who can answer it concretely after four weeks has gotten what the prep was meant to deliver.
+If your repo is in good shape, tag it:
+
+```bash
+git tag v0.1
+git push --tags
+```
 
 ## Practical notes
 
